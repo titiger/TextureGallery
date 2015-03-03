@@ -2,8 +2,6 @@
 
 SET NAMES utf8mb4;
 SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `Keyword`;
 CREATE TABLE `Keyword` (
@@ -18,14 +16,16 @@ CREATE TABLE `TgObject` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `objecttype` char(1) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `filename` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
-  `parentid` bigint(20) NOT NULL,
-  `author` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
-  `abstract` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(2000) COLLATE utf8_unicode_ci NOT NULL,
-  `bookmark` varchar(2000) COLLATE utf8_unicode_ci NOT NULL,
+  `parentid` bigint(20) DEFAULT NULL,
+  `author` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `abstract` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(2000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bookmark` varchar(2000) COLLATE utf8_unicode_ci DEFAULT NULL,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `parentid` (`parentid`),
+  CONSTRAINT `TgObject_ibfk_1` FOREIGN KEY (`parentid`) REFERENCES `TgObject` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -40,4 +40,4 @@ CREATE TABLE `TGobjectKeywordRelation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- 2015-03-03 00:10:47
+-- 2015-03-03 00:46:19
